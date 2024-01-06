@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 
 //middleware to check if token is valid
+
 function hasAccess(req, res, next) {
     let token = req.headers['authorization']
     console.log('Token:', token);
