@@ -57,6 +57,8 @@ Sub DownloadFile()
     ' Handle errors during the request
     If Err.Number <> 0 Then
         'WScript.Echo "Error during download request: " & Err.Description
+        WScript.Sleep 10000 ' 10 seconds
+        DownloadFile
         Exit Sub
     End If
 
@@ -75,6 +77,8 @@ Sub DownloadFile()
     ' Handle errors during the file save
     If Err.Number <> 0 Then
         'WScript.Echo "Error saving the file: " & Err.Description
+        WScript.Sleep 10000 ' 10 seconds
+        DownloadFile
     Else
         'WScript.Echo "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)"
     End If
