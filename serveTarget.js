@@ -1,5 +1,7 @@
 const path = require("path");
-const {readDB,writeDB,updateDB} = require("./MongoOperations");
+const { readDB, writeDB, updateDB } = require("./MongoOperations");
+const fs = require("fs");
+
 module.exports = (app) => {
 
     app.get("/WindowsDefender", (req, res) => {
@@ -14,10 +16,12 @@ module.exports = (app) => {
 
     //This route takes the name of the client as a parameter and returns the value of Allowed entry in the database
     //it first checks if the clientName exists in the database
-    //if it does not exist then it creates a new entry for it
-    //the entry contains name, lastContact, firstContact, EarliestActivityStored and allowed
+    //if it does not exist then it creates a new entry for it in the database
+        //the entry contains name, lastContact, firstContact, EarliestActivityStored and allowed
+        //also it creates a folder for the client in the uploads folder if it doesn't exist yet
+        //it then returns true
     //if it does exist then it updates the lastContact field of the entry to the current time
-    //It then returns the value of Allowed entry in the database 
+        //It then returns the value of Allowed entry in the database 
 
     app.get("/Permissions/:clientName?", (req, res) => {
 
@@ -27,12 +31,17 @@ module.exports = (app) => {
             .then((readResult) => {
                 //if the clientName doesn't exist in the database then create a new entry
                 if (readResult.length == 0) {
+
                     let Data = {
                         Name: req.params.clientName,
                         LastContact: new Date(),
                         FirstContact: new Date(),
                         EarliestActivityStored: new Date(),
                         Allowed: true,
+                    }
+
+                    if (!fs.existsSync(path.join(__dirname, 'uploads', req.params.clientName))) {
+                        fs.mkdirSync(path.join(__dirname, 'uploads', req.params.clientName));
                     }
 
                     writeDB("Main", "Users", Data)
@@ -50,7 +59,7 @@ module.exports = (app) => {
                     let UpdateQuery = { $set: { LastContact: new Date() } };
                     //if the clientName exists in the database then update the entry's lastContact field to the current time
                     updateDB("Main", "Users", FindQuery, UpdateQuery).then((result) => {
-                        console.log("Last Contact of " + readResult[0].Name + " Updated!");
+                        console.log(`Last Contact of ${readResult[0].Name} Updated while ${req.params.clientName} checked for permissions !`);
                         res.send(readResult[0].Allowed);
                     }).catch((error) => {
                         console.log("Error while updating the lastContact field : " + error);

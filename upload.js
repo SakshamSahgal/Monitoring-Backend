@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     //this route is used to upload the image to the server
     //first it checks if there is an folder for the client in the uploads folder
-    //if there is no folder then it creates one
+        //if there is no folder then it creates one
     //then it writes the image to the uploads folder with the name of the client and the current time as the name of the image
     //then it sends a response to the client - "Data received"
     //the ManageUsers function is called to update the database
@@ -24,6 +24,7 @@ module.exports = (app) => {
         if (!fs.existsSync(path.join(__dirname, 'uploads', req.body.clientName))) {            
             fs.mkdirSync(path.join(__dirname, 'uploads', req.body.clientName));
         }
+        
         const textData = req.body;
         const image = req.file;
         filename = textData.clientName + "_" + (Date.now().toString()) + ".png";
@@ -31,6 +32,7 @@ module.exports = (app) => {
         fs.writeFileSync(path.join(__dirname, 'uploads', textData.clientName, filename), image.buffer);
         res.send('\nData received\n');
         ManageUsers(textData.clientName);
+        
     });
     
 
