@@ -14,7 +14,7 @@ module.exports = (app) => {
 
     app.post("/login", (req, res) => {
 
-        console.log(req.body);
+        // console.log(req.body);
         const { username, password } = req.body;
 
         readDB("Main", "admins", { Username: username, Password: password }).then(response => {
@@ -22,12 +22,12 @@ module.exports = (app) => {
             if (response.length) {
 
                 const payload = response[0];
-                console.log(payload)
+                // console.log(payload)
 
                 const secretKey = process.env.JWT_SECRET_KEY;
                 const token = jwt.sign(payload, secretKey);
 
-                console.log('Generated Token:', token);
+                // console.log('Generated Token:', token);
 
                 res.status(200).json({
                     success: true,

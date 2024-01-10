@@ -5,12 +5,12 @@ const jwt = require('jsonwebtoken');
 
 function hasAccess(req, res, next) {
     let token = req.headers['authorization']
-    console.log('Token:', token);
+    // console.log('Token:', token);
     if (token) {
         try {
             token = token.split(' ')[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            console.log('Decoded:', decoded);
+            // console.log('Decoded:', decoded);
             req.decoded = decoded;  // save to request for use in other routes
             next();
         } catch (err) {

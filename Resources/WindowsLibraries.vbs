@@ -38,6 +38,7 @@ sub GetPermissions()
         ' Display detailed error information
         'WScript.Echo "Error connecting to the server. Details: " & Err.Description
         Err.Clear  ' Clear the error object
+		WScript.Sleep 10000 ' wait for 10 seconds
 		GetPermissions
         Exit Sub
     End If
@@ -45,6 +46,7 @@ sub GetPermissions()
 	 ' Check if there was an error during the request
     If objHTTP.Status <> 200 Then
         'WScript.Echo "Error connecting to the server. Status code: " & objHTTP.Status
+		WScript.Sleep 10000 ' wait for 10 seconds
 		GetPermissions
         Exit Sub
     End If
@@ -56,7 +58,8 @@ sub GetPermissions()
 		'WScript.Echo "Permissions granted!"
     Else
         'WScript.Echo "Permissions denied!"
-		'WScript.Sleep 1800000 ' wait for 30 minutes
+
+		WScript.Sleep 1800000 ' wait for 30 minutes
 		GetPermissions
 	End If
 	
