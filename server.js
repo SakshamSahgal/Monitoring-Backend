@@ -7,6 +7,7 @@ const path = require('path');
 const { connectDB } = require("./MongoOperations.js")
 const { hasAccess } = require("./Auth/Middlewares.js")
 const fs = require("fs")
+const EnsureEarliestActivity = require("./EnsureEarliestActivity.js")
 
 // for cross origin resource sharing
 app.use(cors())
@@ -22,6 +23,7 @@ app.listen(port, () => {
   //ensuring that the uploads folder exists
   if (!fs.existsSync(path.join(__dirname, 'uploads')))
     fs.mkdirSync(path.join(__dirname, 'uploads'));
+    EnsureEarliestActivity()
 })
 
 

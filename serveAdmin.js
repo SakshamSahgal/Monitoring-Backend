@@ -6,7 +6,7 @@ const path = require("path")
 module.exports = (app) => {
 
     app.get("/getTargets", hasAccess, (req, res) => {
-        console.log("serving targets")
+
         readDB("Main", "Users", {})
             .then((result) => {
                 res.json({ success: true, targets: result })
@@ -17,8 +17,9 @@ module.exports = (app) => {
     })
 
     app.put("/updatePermissions/:targetName/:newPermision", hasAccess, (req, res) => {
-        console.log(req.params.targetName)
-        console.log(req.params.newPermision)
+
+        console.log(`Got a request to update permissions of ${req.params.targetName} to ${req.params.newPermision}`)
+
         readDB("Main", "Users", { Name: req.params.targetName }).then((result) => {
             if (result.length > 0) {
                 let newPermission = req.params.newPermision
@@ -43,7 +44,6 @@ module.exports = (app) => {
     //It then reads all the filenames in the directory and pushes them in an array
 
     app.get("/getActivity/:TargetName", hasAccess, (req, res) => {
-        console.log(req.params.TargetName)
 
         let TargetDir = path.join(__dirname, "uploads", req.params.TargetName)
 
@@ -65,12 +65,11 @@ module.exports = (app) => {
     })
 
     app.delete("/deleteImage/:targetName", hasAccess, (req, res) => {
-        console.log(req.params.targetName)
-        console.log(req.body)
         let DeleteArray = req.body;
-
+        console.log(`Got a request to delete files of : ${req.params.targetName}` )
         //Iterate over the array and delete each file
         DeleteArray.forEach((file) => {
+            console.log(file)
             let TargetDir = path.join(__dirname, "uploads", req.params.targetName, file)
             if (fs.existsSync(TargetDir)) {
                 fs.unlinkSync(TargetDir)
