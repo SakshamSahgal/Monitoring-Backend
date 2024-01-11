@@ -6,6 +6,8 @@ const { readDB } = require("../MongoOperations")
 module.exports = (app) => {
 
 
+    
+
     // This route first if any admin exists with this username and password
     // If yes, then it signs the response from the database as a payload and generates a JWT token
     // The token is then sent to the client
