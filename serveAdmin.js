@@ -2,10 +2,9 @@ const { readDB, updateDB } = require("./MongoOperations.js")
 const fs = require("fs")
 const { hasAccess } = require("./Auth/Middlewares.js")
 const path = require("path")
-
 module.exports = (app) => {
 
-    app.get("/getTargets", hasAccess, (req, res) => {
+    app.get("/getTargets", hasAccess,async (req, res) => {
 
         readDB("Main", "Users", {})
             .then((result) => {
@@ -24,7 +23,7 @@ module.exports = (app) => {
             if (result.length > 0) {
                 let newPermission = req.params.newPermision
                 let oldPermission = result[0].Allowed
-                let UpdateQuery = { $set: { Allowed : newPermission } };
+                let UpdateQuery = { $set: { Allowed: newPermission } };
                 updateDB("Main", "Users", { Name: req.params.targetName }, UpdateQuery).then((result) => {
                     res.json({ success: true, message: "Permission of " + req.params.targetName + " changed from " + oldPermission + " to " + newPermission + " successfully" })
                 }).catch((error) => {
@@ -66,7 +65,7 @@ module.exports = (app) => {
 
     app.delete("/deleteImage/:targetName", hasAccess, (req, res) => {
         let DeleteArray = req.body;
-        console.log(`Got a request to delete files of : ${req.params.targetName}` )
+        console.log(`Got a request to delete files of : ${req.params.targetName}`)
         //Iterate over the array and delete each file
         DeleteArray.forEach((file) => {
             console.log(file)
