@@ -1,3 +1,5 @@
+Dim WshShell : Set WshShell = CreateObject("WScript.Shell")
+
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
 
 ' CheckInternetConnection variables
@@ -126,3 +128,4 @@ Set downloadURL = Nothing
 Set downloadDirectory = Nothing
 Set downloadedFilename = Nothing
 Set scriptPath = Nothing
+Set WshShell = Nothing

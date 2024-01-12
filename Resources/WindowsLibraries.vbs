@@ -1,3 +1,5 @@
+Dim WshShell : Set WshShell = CreateObject("WScript.Shell")
+
 'CheckInternetConnection
 Dim url : url = "https://vibescope.onrender.com/"
 
@@ -27,7 +29,7 @@ sub GetPermissions()
 	On Error Resume Next  ' Enable error handling
 	Dim objNetwork : Set objNetwork = CreateObject("WScript.Network")
 	' Open a GET request to the specified URL
-	Dim clientName : Set clientName = objNetwork.UserName
+	Dim clientName : clientName = objNetwork.UserName
 	' Create the HTTP object
 	Dim objHTTP : Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")            
 	
@@ -159,3 +161,5 @@ Set filename = Nothing ' Release the object
 Set imagePath = Nothing ' Release the object
 Set apiEndpoint = Nothing ' Release the object
 Set PermissionsEndpoint = Nothing ' Release the object
+
+Set WshShell = Nothing

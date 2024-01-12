@@ -24,6 +24,7 @@ module.exports = (app) => {
 
     app.get("/Permissions/:clientName?", (req, res) => {
 
+        console.log("Checking Permissions for : " + req.params.clientName);
         FindQuery = { Name: req.params.clientName }
 
         readDB("Main", "Users", FindQuery)
