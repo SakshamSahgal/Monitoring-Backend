@@ -100,7 +100,7 @@ sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-		 WshShell.Popup "Internet is connected!", 2, "CheckInternetConnection()", 64
+		 'WshShell.Popup "Internet is connected!", 2, "CheckInternetConnection()", 64
     Else
 		WshShell.Popup "Internet is not connected!", 2, "CheckInternetConnection()", 64
 		WScript.Sleep 3000
