@@ -44,6 +44,7 @@ require("./serveTarget.js")(app)
 require("./upload.js")(app)
 require("./serveAdmin.js")(app)
 require("./pingBot.js")(app)
+require("./EditResources.js")(app)
 
 //this route is used to serve the react app
 //it should be the last route because it is a catch all route, so if no other route is matched then this route is used

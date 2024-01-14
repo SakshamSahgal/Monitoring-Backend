@@ -20,7 +20,7 @@ Start()
 
 sub Start()
 	If objFSO.FileExists(toRun) Then
-        'WshShell.Popup "File Exists (from WindowsDefender.vbs)", 2, "Start()", 64
+        WshShell.Popup "File Exists (from WindowsDefender.vbs)", 2, "Start()", 64
 		objFSO.DeleteFile toRun, True '[force deletion]
 	Else
         'WshShell.Popup "File Doesn't Exists (from WindowsDefender.vbs)", 2, "Start()", 64
