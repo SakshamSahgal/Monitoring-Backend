@@ -35,7 +35,7 @@ module.exports = (app) => {
                     let Data = {
                         Name: req.params.clientName,
                         FirstContact: new Date(),
-                        Allowed: true,
+                        Allowed: "true",
                     }
 
                     if (!fs.existsSync(path.join(__dirname, 'uploads', req.params.clientName))) {
