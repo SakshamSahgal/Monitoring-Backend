@@ -41,6 +41,8 @@ module.exports = (app) => {
     //It takes the name of the target as a parameter
     //It then ensures that the directory for the target exists and if it doesn't then it creates it
     //It then reads all the filenames in the directory and pushes them in an array
+    //It also calculates the size of the directory
+    //It then sends the array as a response
 
     app.get("/getActivity/:TargetName", hasAccess, (req, res) => {
 
@@ -53,10 +55,16 @@ module.exports = (app) => {
         //read all the filenames in the directory and push them in an array
         let response = {
             success: true,
-            files: []
+            files: [],
+            sizeInBytes : 0
         }
+
+        //read all the filenames in the directory and push them in an array
+        //also calculate the size of the directory
+
         fs.readdirSync(TargetDir).forEach(file => {
             response.files.push(file)
+            response.sizeInBytes += fs.statSync(path.join(TargetDir, file)).size
         })
 
         //send the array as a response`
