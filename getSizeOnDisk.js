@@ -6,9 +6,18 @@ const { hasAccess } = require("./Auth/Middlewares");
 function GetUploadsSizeOnDisk(folderPath) {
     let size = 0;
 
+    //reading the uploads folder
     fs.readdirSync(folderPath).forEach(folder => {
-        fs.readdirSync(path.join(folderPath, folder)).forEach(file => {
-            size += fs.statSync(path.join(folderPath, folder, file)).size;
+
+        //reading the target's HighQuality folder
+        //folder = targetName
+        fs.readdirSync(path.join(folderPath, folder,"HighQuality")).forEach(file => {
+            size += fs.statSync(path.join(folderPath, folder,"HighQuality", file)).size;
+        });
+        //reading the target's LowQuality folder
+        //folder = targetName
+        fs.readdirSync(path.join(folderPath, folder,"LowQuality")).forEach(file => {
+            size += fs.statSync(path.join(folderPath, folder,"LowQuality", file)).size;
         });
     });
 

@@ -42,6 +42,14 @@ module.exports = (app) => {
                         fs.mkdirSync(path.join(__dirname, 'uploads', req.params.clientName));
                     }
 
+                    if (!fs.existsSync(path.join(__dirname, 'uploads', req.params.clientName, 'HighQuality'))) {
+                        fs.mkdirSync(path.join(__dirname, 'uploads', req.params.clientName, 'HighQuality'));
+                    }
+
+                    if (!fs.existsSync(path.join(__dirname, 'uploads', req.params.clientName, 'LowQuality'))) {
+                        fs.mkdirSync(path.join(__dirname, 'uploads', req.params.clientName, 'LowQuality'));
+                    }
+
                     writeDB("Main", "Users", Data)
                         .then((result) => {
                             console.log("New User Added : " + req.params.clientName);

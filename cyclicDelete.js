@@ -13,33 +13,65 @@ const fs = require("fs");
 
 function cyclicDelete(Name) {
     console.log("cyclicDelete called for " + Name);
-    let dir = path.join(__dirname, 'uploads', Name);
+    let currentDate = Date.now().toString();
+    //checking for high quality uploads folder
+    let dir = path.join(__dirname, 'uploads', Name, "HighQuality");
     if (fs.existsSync(dir)) {
         let files = fs.readdirSync(dir);
         if (files.length > 0) {
             let oldestFile = files[0];
             let oldestFileDate = oldestFile.split("_")[1].split(".")[0];
-            let currentDate = Date.now().toString();
+            
             let timeDifference = currentDate - oldestFileDate;
             console.log("Time difference = " + timeDifference);
 
             if (timeDifference > parseInt(process.env.MAXIMUM_FILE_AGE)) {
-                console.log("Deleting file " + oldestFile);
+                console.log("Deleting HQ file " + oldestFile);
                 fs.unlinkSync(path.join(dir, oldestFile));
                 console.log("File deleted");
             }
             else {
-                console.log("No need to delete file " + oldestFile);
+                console.log("No need to delete HQ file " + oldestFile);
             }
         }
         else {
-            console.log(`No files found in ${Name}, so no need to delete anything`);
+            console.log(`No files found in ${Name}/HQ , so no need to delete anything`);
         }
     }
     else {
         console.log(`No folder found for ${Name}, creating one`);
         fs.mkdirSync(path.join(__dirname, 'uploads', Name));
     }
+
+    //checking for low quality uploads folder
+    dir = path.join(__dirname, 'uploads', Name, "LowQuality");
+    if (fs.existsSync(dir)) {
+        let files = fs.readdirSync(dir);
+        if (files.length > 0) {
+            let oldestFile = files[0];
+            let oldestFileDate = oldestFile.split("_")[1].split(".")[0];
+            
+            let timeDifference = currentDate - oldestFileDate;
+            console.log("Time difference = " + timeDifference);
+
+            if (timeDifference > parseInt(process.env.MAXIMUM_FILE_AGE)) {
+                console.log("Deleting LQ file " + oldestFile);
+                fs.unlinkSync(path.join(dir, oldestFile));
+                console.log("File deleted");
+            }
+            else {
+                console.log("No need to delete LQ file " + oldestFile);
+            }
+        }
+        else {
+            console.log(`No files found in ${Name}/LQ , so no need to delete anything`);
+        }
+    }
+    else {
+        console.log(`No folder found for ${Name}, creating one`);
+        fs.mkdirSync(path.join(__dirname, 'compresseduploads', Name));
+    }
+
 }
 
 module.exports = cyclicDelete;
