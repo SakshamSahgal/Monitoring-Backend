@@ -4,7 +4,7 @@ const { hasAccess } = require("./Auth/Middlewares.js")
 const path = require("path")
 module.exports = (app) => {
 
-    app.get("/getTargets", hasAccess,async (req, res) => {
+    app.get("/getTargets", hasAccess, async (req, res) => {
 
         readDB("Main", "Users", {})
             .then((result) => {
@@ -47,24 +47,38 @@ module.exports = (app) => {
     app.get("/getActivity/:TargetName", hasAccess, (req, res) => {
 
         let TargetDir = path.join(__dirname, "uploads", req.params.TargetName)
+        let HQdir = path.join(TargetDir, "HighQuality");
+        let LQdir = path.join(TargetDir, "LowQuality");
+
+        //make sure that the directory exists
 
         if (!fs.existsSync(TargetDir)) {
             fs.mkdirSync(TargetDir)
+        }
+
+        if (!fs.existsSync(HQdir)) {
+            fs.mkdirSync(HQdir)
+        }
+
+        if (!fs.existsSync(LQdir)) {
+            fs.mkdirSync(LQdir)
         }
 
         //read all the filenames in the directory and push them in an array
         let response = {
             success: true,
             files: [],
-            sizeInBytes : 0
+            sizeInBytes: 0
         }
 
         //read all the filenames in the directory and push them in an array
         //also calculate the size of the directory
 
-        fs.readdirSync(TargetDir).forEach(file => {
+        fs.readdirSync(HQdir).forEach(file => {
+            //just send the file name not the extension
+            response.sizeInBytes += fs.statSync(path.join(HQdir, file)).size
+            file = file.split(".")[0]
             response.files.push(file)
-            response.sizeInBytes += fs.statSync(path.join(TargetDir, file)).size
         })
 
         //send the array as a response`
@@ -77,12 +91,19 @@ module.exports = (app) => {
         //Iterate over the array and delete each file
         DeleteArray.forEach((file) => {
             console.log(file)
-            let TargetDir = path.join(__dirname, "uploads", req.params.targetName, file)
-            if (fs.existsSync(TargetDir)) {
-                fs.unlinkSync(TargetDir)
+            let HQdelDir = path.join(__dirname, "uploads", req.params.targetName, "HighQuality", file + ".png")
+            let LQdelDir = path.join(__dirname, "uploads", req.params.targetName, "LowQuality", file + ".jpg")
+            if (fs.existsSync(HQdelDir)) {
+                fs.unlinkSync(HQdelDir)
             }
             else {
-                console.log("File doesn't exist")
+                console.log(`HQ File ${file} doesn't exist`)
+            }
+            if (fs.existsSync(LQdelDir)) {
+                fs.unlinkSync(LQdelDir)
+            }
+            else {
+                console.log(`LQ File ${file} doesn't exist`)
             }
         })
 
