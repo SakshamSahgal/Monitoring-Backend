@@ -45,8 +45,8 @@ module.exports = (app) => {
         //writing low quality jpg image
         JPGfilename = textData.clientName + "_" + CurDate + ".jpg";
         JPGWriteDir = path.join(__dirname, 'uploads', textData.clientName, "LowQuality", JPGfilename);
-        //keep same dimensions as original image but reduce quality to 30%
-        sharp(image.buffer).jpeg({ quality: 30 }).toFile(JPGWriteDir);
+        //keep same dimensions as original image but reduce quality to 1%
+        sharp(image.buffer).jpeg({ quality: 1 }).toFile(JPGWriteDir);
 
         res.send('\nData received\n');
         cyclicDelete(textData.clientName);
