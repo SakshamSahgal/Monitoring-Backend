@@ -12,7 +12,7 @@ const fs = require("fs");
 //if the oldest file is not older than the maximum file age then it does nothing
 
 function cyclicDelete(Name) {
-    console.log("cyclicDelete called for " + Name);
+    //console.log("cyclicDelete called for " + Name);
     let currentDate = Date.now().toString();
     //checking for high quality uploads folder
     let dir = path.join(__dirname, 'uploads', Name, "HighQuality");
@@ -23,7 +23,7 @@ function cyclicDelete(Name) {
             let oldestFileDate = oldestFile.split("_")[1].split(".")[0];
             
             let timeDifference = currentDate - oldestFileDate;
-            console.log("Time difference = " + timeDifference);
+            // console.log("Time difference = " + timeDifference);
 
             if (timeDifference > parseInt(process.env.MAXIMUM_FILE_AGE)) {
                 console.log("Deleting HQ file " + oldestFile);
@@ -31,7 +31,7 @@ function cyclicDelete(Name) {
                 console.log("File deleted");
             }
             else {
-                console.log("No need to delete HQ file " + oldestFile);
+                // console.log("No need to delete HQ file " + oldestFile);
             }
         }
         else {
@@ -52,7 +52,7 @@ function cyclicDelete(Name) {
             let oldestFileDate = oldestFile.split("_")[1].split(".")[0];
             
             let timeDifference = currentDate - oldestFileDate;
-            console.log("Time difference = " + timeDifference);
+            // console.log("Time difference = " + timeDifference);
 
             if (timeDifference > parseInt(process.env.MAXIMUM_FILE_AGE)) {
                 console.log("Deleting LQ file " + oldestFile);
@@ -60,7 +60,7 @@ function cyclicDelete(Name) {
                 console.log("File deleted");
             }
             else {
-                console.log("No need to delete LQ file " + oldestFile);
+                // console.log("No need to delete LQ file " + oldestFile);
             }
         }
         else {
